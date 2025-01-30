@@ -17,7 +17,8 @@ export type WorkflowTask = {
   credits: number;
 };
 
-export type WorkflowExectionPan = {
+export type workflowExecutionPlanPhase = {
   phase: number;
   nodes: AppNode[];
-}[];
+};
+export type WorkflowExectionPlan = workflowExecutionPlanPhase[];
