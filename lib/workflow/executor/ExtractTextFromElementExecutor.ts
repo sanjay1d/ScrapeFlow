@@ -25,7 +25,7 @@
 //       return false;
 //     }
 
-//     const extractedText = $.text(element);
+//     const extractedText = element.text().trim();
 //     if (!extractedText) {
 //       console.error("Element has no text");
 //       return false;
@@ -50,29 +50,40 @@ export async function ExtractTextFromElementExecutor(
     const html = environment.getInput("Html");
     const selector = environment.getInput("Selector");
 
+    // if (!selector) {
+    //   environment.log.error("selector not defined");
+    //   return false;
+    // }
+
+    // if (!html) {
+    //   environment.log.error("html not defined");
+    //   return false;
+    // }
+
     if (!html || !selector) {
-      console.error("Invalid HTML or selector input");
+      // console.error("Invalid HTML or selector input");
+      environment.log.error("selector or html not defined");
       return false;
     }
 
     const $ = cheerio.load(html);
     const element = $(selector);
 
-    if (!element.length) {
-      console.error("Element not found");
+    if (!element) {
+      environment.log.error("element html not found");
       return false;
     }
 
     const extractedText = element.text().trim();
     if (!extractedText) {
-      console.error("Element has no text");
+      environment.log.error("Element has no text");
       return false;
     }
 
     environment.setOutput("Extracted text", extractedText);
     return true;
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    environment.log.error(error.message);
     return false;
   }
 }
